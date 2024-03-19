@@ -27,7 +27,7 @@ function uploadFile() {
   formData.append('file', file);
 
   const xhr = new XMLHttpRequest();
-  xhr.open('POST', '/upload', true);
+  xhr.open('POST', '/transfer', true);
 
   xhr.onreadystatechange = function() {
     if (xhr.readyState === XMLHttpRequest.DONE) {
