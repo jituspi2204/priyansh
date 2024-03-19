@@ -40,7 +40,7 @@
                   const value = obj[key];
                   const valueElement = document.createElement("a");
                   valueElement.href = `${value}`;
-                  link.textContent = `${key}`
+                  valueElement.textContent = `${key}`
                   container.appendChild(valueElement);
                   const lineBreak = document.createElement('br');
                   container.appendChild(lineBreak)
