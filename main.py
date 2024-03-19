@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, send_from_directory
 import pandas as pd
 from datetime import datetime
 import base64
@@ -6,10 +6,9 @@ import base64
 app = Flask(__name__)
 
 
-@app.route('/', methods=['GET'])
-def hello():
-    return jsonify({'message': 'Hello, Server Working Fine!'})
-
+@app.route('/')
+def home():
+    return send_from_directory('build',"index.html")
 
 @app.route('/transfer', methods=['POST'])
 def get_columns():
