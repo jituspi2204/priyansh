@@ -34,13 +34,16 @@
             if (xhr.status === 200) {
               const obj = JSON.parse(xhr.responseText);
               const container = document.getElementById("response");
+              container.innerHTML = '';
               for (const key in obj) {
                 if (obj.hasOwnProperty(key)) {
                   const value = obj[key];
-                  console.log(value);
                   const valueElement = document.createElement("a");
-                  valueElement.textContent = `${value}`;
+                  valueElement.href = `${value}`;
+                  link.textContent = `${key}`
                   container.appendChild(valueElement);
+                  const lineBreak = document.createElement('br');
+                  container.appendChild(lineBreak)
                 }
               }
             } else {
