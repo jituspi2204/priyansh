@@ -33,7 +33,7 @@ function uploadFile() {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
-        document.getElementById('response').innerHTML = response;
+        document.getElementById('response').innerText = response;
       } else {
         document.getElementById('response').innerHTML = 'Error uploading file.';
       }
