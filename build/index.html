@@ -3,18 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>File Upload</title>
+    <link rel="stylesheet" href="build/styles.css" />
+    <title>Transfer Employees</title>
   </head>
   <body>
-    <h1>File Upload</h1>
-
-    <input type="file" id="fileInput" />
-    <button onclick="uploadFile()">Upload</button>
-
-    <div id="response"></div>
+    <div class="container">
+      <!-- code here -->
+      <div class="card">
+        <div class="card-image">
+          <h2 class="card-heading">
+            Transfer Employee's
+            <small>Enter the following details</small>
+          </h2>
+        </div>
+        <div class="card-form">
+          <div class="input">
+            <input type="text" id="numberInputX" class="input-field" required />
+            <label class="input-label">Start Year</label>
+          </div>
+          <div class="input">
+            <input type="text" id="numberInputY" class="input-field" required />
+            <label class="input-label">End Year</label>
+          </div>
+          <div class="input">
+            <input type="file" id="fileInput" class="input-field" />
+            <label class="input-label">Select File</label>
+          </div>
+          <div class="action">
+            <button class="action-button" onclick="uploadFile()">Upload</button>
+          </div>
+        </div>
+      </div>
+      <div id="response" class="card"></div>
+    </div>
 
     <script>
       function uploadFile() {
+        var inputNumberX = document.getElementById("numberInputX").value;
+        var inputNumberY = document.getElementById("numberInputY").value;
+        // // Check if the input is a number
+        // if (isNaN(inputNumberX) || isNaN(inputNumberY)) {
+        //   alert(
+        //     "Please enter a valid number." +
+        //       "Start Date:" +
+        //       inputNumberX +
+        //       " and " +
+        //       "End Date:" +
+        //       inputNumberY
+        //   );
+        //   return;
+        // }
         const fileInput = document.getElementById("fileInput");
         const file = fileInput.files[0];
         if (!file) {
@@ -26,13 +64,14 @@
         formData.append("file", file);
 
         const xhr = new XMLHttpRequest();
-
-        xhr.open("POST", "/transfer", true);
+        const reqUrl = `/transfer?startyear=${inputNumberX}&endyear=${inputNumberY}`;
+        xhr.open("POST", reqUrl, true);
 
         xhr.onreadystatechange = function () {
           if (xhr.readyState === XMLHttpRequest.DONE) {
             if (xhr.status === 200) {
               const obj = JSON.parse(xhr.responseText);
+              console.log("object", obj);
               const container = document.getElementById("response");
               container.innerHTML = "";
               for (const key in obj) {
@@ -40,6 +79,7 @@
                   const value = obj[key];
                   const valueElement = document.createElement("a");
                   valueElement.href = `${value}`;
+                  valueElement.className = "action-button-a";
                   valueElement.textContent = `${key}`;
                   container.appendChild(valueElement);
                   const lineBreak = document.createElement("br");
@@ -47,8 +87,11 @@
                 }
               }
             } else {
-              document.getElementById("response").innerHTML =
-                "Error uploading file.";
+              const obj = JSON.parse(xhr.responseText);
+              // document.getElementById("response").innerHTML =
+              //   obj.error;
+              alert("Error : " + obj.error);
+              return;
             }
           }
         };

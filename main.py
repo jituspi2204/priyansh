@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 import base64
 
-app = Flask(__name__)
+app = Flask(__name__,static_folder='build')
 
 
 @app.route('/')
@@ -12,12 +12,15 @@ def home():
 
 @app.route('/transfer', methods=['POST'])
 def get_columns():
+    x = int(request.args.get('startyear'))
+    y = int(request.args.get('endyear'))
+    # print(x)
     if 'file' not in request.files:
-        return jsonify({'error': 'No file Send with key "file"'})
+        return jsonify({'error': 'No file Send with key "file"'}), 400
     
     file = request.files['file']
     if file.filename == '':
-        return jsonify({'error': 'No selected file'})
+        return jsonify({'error': 'No selected file'}), 400
     # file = 'dfs.xlsx'
     try:
         # Read Excel file
@@ -28,6 +31,8 @@ def get_columns():
         df.fillna(False,inplace=True)
         df.isnull().sum()
         df = df[df["Rank "].notna()]
+        df["Posting year"] = df["Posting year"].astype(int)
+        df = df[(df["Posting year"] >= x) & (df["Posting year"] <= y)]
         columns = df.to_json(orient='records')
         mask = (df["Rank "].str.contains("LF", na=False) |
             df["Rank "].str.contains("LF ", na=False) |
@@ -37,7 +42,6 @@ def get_columns():
         )
         df_LF = df[mask]
         columns = df_LF.shape
-        
         mask1 = (
             df["Rank "].str.contains("FO", na=False) |
             df["Rank "].str.contains("FO ", na=False) |
@@ -172,8 +176,8 @@ def get_columns():
 
         return jsonify(output)
     except Exception as e:
-        return jsonify({'result':'Not able to generate file!',
-                        'error': str(e)})
+        # print(e)
+        return jsonify({'error': str(e)}),500
 
 @app.route('/download_file/<file>', methods=['GET'])
 def download_file(file):
