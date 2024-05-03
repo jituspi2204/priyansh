@@ -57,12 +57,12 @@ def get_columns():
 
         # Apply the boolean mask to filter the DataFrame
         df_FM = df[mask2]
-        df_LF["date of posting "] = pd.to_datetime(df_LF["date of posting "], format='%d.%m.%Y', errors='coerce')
+        # df_LF["date of posting "] = pd.to_datetime(df_LF["date of posting "], format='%d.%m.%Y', errors='coerce')
 
         # Calculate the difference between "date of posting" and the current date
-        current_date = datetime.now()
-        df_LF["posting_age"] = (current_date - df_LF["date of posting "]).dt.days
-        df_LF=df_LF[df_LF["posting_age"]>=1826]
+        # current_date = datetime.now()
+        # df_LF["posting_age"] = (current_date - df_LF["date of posting "]).dt.days
+        # df_LF=df_LF[df_LF["posting_age"]>=1826]
         df_LF=df_LF[["NAME","Station "]]
         # Assuming you have a DataFrame named df_LF with columns 'index', 'NAME', and 'Station '
         df_LF['New_Station'] = ""
@@ -85,14 +85,14 @@ def get_columns():
         
         
         # Convert "date of posting" to datetime format
-        df_FO["date of posting "] = pd.to_datetime(df_FO["date of posting "], format='%d.%m.%Y', errors='coerce')
+        # df_FO["date of posting "] = pd.to_datetime(df_FO["date of posting "], format='%d.%m.%Y', errors='coerce')
 
         # Calculate the difference between "date of posting" and the current date
-        current_date = datetime.now()
-        df_FO["posting_age"] = (current_date - df_FO["date of posting "]).dt.days
+        # current_date = datetime.now()
+        # df_FO["posting_age"] = (current_date - df_FO["date of posting "]).dt.days
 
         # Filter out postings older than 5 years (1826 days)
-        df_FO = df_FO[df_FO["posting_age"] >= 1826]
+        # df_FO = df_FO[df_FO["posting_age"] >= 1826]
 
         # Select only the "NAME" and "Station" columns
         df_FO = df_FO[["NAME", "Station "]]
@@ -123,14 +123,14 @@ def get_columns():
             station_counts[new_station] -= 1
 
         # Display the updated DataFrame
-        df_FM["date of posting "] = pd.to_datetime(df_FM["date of posting "], format='%d.%m.%Y', errors='coerce')
+        # df_FM["date of posting "] = pd.to_datetime(df_FM["date of posting "], format='%d.%m.%Y', errors='coerce')
 
         # Calculate the difference between "date of posting" and the current date
-        current_date = datetime.now()
-        df_FM["posting_age"] = (current_date - df_FM["date of posting "]).dt.days
+        # current_date = datetime.now()
+        # df_FM["posting_age"] = (current_date - df_FM["date of posting "]).dt.days
 
         # Filter out postings older than 5 years (1826 days)
-        df_FM = df_FM[df_FM["posting_age"] >= 1826]
+        # df_FM = df_FM[df_FM["posting_age"] >= 1826]
 
         # Select only the "NAME" and "Station" columns
         df_FM = df_FM[["NAME", "Station "]]
